@@ -90,8 +90,13 @@
 <script>
     function fetchDataFromApi() {
         var bookGenre = genreText.value;
-        fetch(`https://www.googleapis.com/books/v1/volumes?q=${bookGenre}`).then(res => res.json()).
+        if(bookGenre==''){
+            resultDiv.innerHTML=`<strong>Please enter a genre</strong> `
+        }else{
+            fetch(`https://www.googleapis.com/books/v1/volumes?q=${bookGenre}`).then(res => res.json()).
             then(data => populateData(data.items)).catch(error => showError(error));
+        }
+        
     }
 
     function populateData(dataArray) {
@@ -100,7 +105,7 @@
         for (data of dataArray) {
             //console.log(data);
             var authors = "";
-            console.log(data.volumeInfo.authors.length);
+            //console.log(data.volumeInfo.authors.length);
             if (!data.volumeInfo.authors == '' && data.volumeInfo.authors.length >0) {
 
 
