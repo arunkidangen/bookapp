@@ -36,9 +36,13 @@
             border-radius: 5%;
             color: rgb(129, 7, 228);
             font-weight: bold;
+            height: 700px;
         }
 
-
+        .buttonclass{
+           
+      position: relative;
+        }
 
         .resultRow {
             height: 100%;
@@ -49,7 +53,8 @@
 
         img {
             height: 30%;
-            width: 35%;
+            width: 67%;
+            object-fit: cover;
         }
 
         /* ul {
@@ -124,7 +129,7 @@
                         <p id="publishedDate">Published On : ${data.volumeInfo.publishedDate} </p>
                         <p id="publishedDate">Description : ${data.searchInfo.textSnippet} </p>
                         <a href="${data.volumeInfo.infoLink}"
-                            class="btn btn-danger">View more Details </a>
+                            class="btn btn-danger  buttonclass">View more Details </a>
                         </div></div>`
 
         }
