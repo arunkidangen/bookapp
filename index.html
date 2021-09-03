@@ -15,11 +15,12 @@
     <script src="https://kit.fontawesome.com/181ce8611c.js" crossorigin="anonymous"></script>
 
     <style>
-        body{
+        body {
             height: 100vh;
-            background: rgb(137,96,76);
-background: linear-gradient(148deg, rgba(137,96,76,0.039729270614495826) 0%, rgba(244,69,0,1) 100%); 
+            background: rgb(137, 96, 76);
+            background: linear-gradient(148deg, rgba(137, 96, 76, 0.039729270614495826) 0%, rgba(244, 69, 0, 1) 100%);
         }
+
         #genreText {
             width: 80%;
         }
@@ -37,19 +38,20 @@ background: linear-gradient(148deg, rgba(137,96,76,0.039729270614495826) 0%, rgb
             font-weight: bold;
         }
 
-       
+
 
         .resultRow {
             height: 100%;
             padding: 1%;
-                      
+
         }
 
-        
-img{
-    height: 30%;
-    width: 35%;
-}
+
+        img {
+            height: 30%;
+            width: 35%;
+        }
+
         /* ul {
             text-align: left;
         }
@@ -60,7 +62,7 @@ img{
     </style>
 </head>
 
-<body >
+<body>
     <div class="container">
         <div class=" col-12 col-md-12 col-sm-12 col-lg-12 bg-secondary d-flex justify-content-center p-5"> <i
                 class="fas fa-3x fa-book">Book Library</i></div>
@@ -96,12 +98,18 @@ img{
         var htmlData = '';
 
         for (data of dataArray) {
-            console.log(data.volumeInfo.title);
-            let authors = "";
-            for (author of data.volumeInfo.authors) {
-                authors += author + "|"
-            }
+            //console.log(data);
+            var authors = "";
+            console.log(data.volumeInfo.authors.length);
+            if (!data.volumeInfo.authors == '' && data.volumeInfo.authors.length >0) {
 
+
+                for (author of data.volumeInfo.authors) {
+                    authors += author + "|"
+                }
+            } else {
+                authors += 'Cannot find Authors';
+            }
             htmlData += ` <div  class="resultRow mt-2 col-12 mt-2 col-md-12 col-sm-12 col-lg-3 justify-content-center "><div class="border-secondary border bookdetails p-1">
                         <img id="smallthumbnail"
                             src="${data.volumeInfo.imageLinks.thumbnail}" />
@@ -109,7 +117,7 @@ img{
                         <p id="authors">Authors : ${authors}  </p>
                         <p id="publishedBy">Publisher : ${data.volumeInfo.publisher} </p>
                         <p id="publishedDate">Published On : ${data.volumeInfo.publishedDate} </p>
-                        <p id="publishedDate">Description : ${data.searchInfo} </p>
+                        <p id="publishedDate">Description : ${data.searchInfo.textSnippet} </p>
                         <a href="${data.volumeInfo.infoLink}"
                             class="btn btn-danger">View more Details </a>
                         </div></div>`
