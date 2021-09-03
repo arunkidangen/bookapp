@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/181ce8611c.js" crossorigin="anonymous"></script>
+
+    <style>
+        #genreText {
+            width: 80%;
+        }
+
+        #resultDiv {
+            text-align: center;
+            display: flex;
+        }
+
+        .bookdetails {
+            /* background: rgb(95, 40, 158); */
+            /* background: linear-gradient(90deg, rgb(98, 94, 160) 0%, rgb(96, 100, 99) 43%, rgb(201, 129, 47) 100%); */
+            border-radius: 5%;
+            color: rgb(129, 7, 228);
+            font-weight: bold;
+        }
+
+       
+
+        .resultRow {
+            height: 100%;
+            padding: 1%;
+                      
+        }
+
+        
+img{
+    height: 30%;
+    width: 35%;
+}
+        /* ul {
+            text-align: left;
+        }
+
+        li {
+            float: left;
+        } */
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class=" col-12 col-md-12 col-sm-12 col-lg-12 bg-secondary d-flex justify-content-center p-5"> <i
+                class="fas fa-3x fa-book">Book Library</i></div>
+        <div class="row m-5">
+
+            <div class="col-12 col-md-12 col-sm-12 col-lg-3  d-flex justify-content-center ">
+
+            </div>
+            <div class=" mt-1 col-12 col-md-12 col-sm-12 col-lg-6 d-flex justify-content-center" id="searchDiv">
+                <input type="text" placeholder="Enter Genre Here" id="genreText"
+                    class="form-control bg-light text-dark">
+                <button class="btn btn-secondary btn-lg" onclick="fetchDataFromApi()"><i
+                        class="fas fa-search"></i></button>
+            </div>
+            <div class="mt-1  col-12 col-md-12 col-sm-12 col-lg-3 "></div>
+        </div>
+        <span>
+            <span class="row m-2" id="resultDiv">
+
+            </span>
+        </span>
+
+    </div>
+</body>
+<script>
+    function fetchDataFromApi() {
+        var bookGenre = genreText.value;
+        fetch(`https://www.googleapis.com/books/v1/volumes?q=${bookGenre}`).then(res => res.json()).
+            then(data => populateData(data.items)).catch(error => showError(error));
+    }
+
+    function populateData(dataArray) {
+        var htmlData = '';
+
+        for (data of dataArray) {
+            console.log(data.volumeInfo.title);
+            let authors = "";
+            for (author of data.volumeInfo.authors) {
+                authors += author + "|"
+            }
+
+            htmlData += ` <div  class="resultRow mt-2 col-12 mt-2 col-md-12 col-sm-12 col-lg-3 justify-content-center "><div class="border-secondary border bookdetails p-1">
+                        <img id="smallthumbnail"
+                            src="${data.volumeInfo.imageLinks.thumbnail}" />
+                           <p id="title">Title : ${data.volumeInfo.title} </p>
+                        <p id="authors">Authors : ${authors}  </p>
+                        <p id="publishedBy">Publisher : ${data.volumeInfo.publisher} </p>
+                        <p id="publishedDate">Published On : ${data.volumeInfo.publishedDate} </p>
+                        <p id="publishedDate">Description : ${data.searchInfo} </p>
+                        <a href="${data.volumeInfo.infoLink}"
+                            class="btn btn-danger">View more Details </a>
+                        </div></div>`
+
+        }
+        resultDiv.innerHTML = htmlData;
+
+    }
+
+    function showError(err) {
+        resultDiv.innerHTML = err;
+    }
+</script>
+
+</html>
